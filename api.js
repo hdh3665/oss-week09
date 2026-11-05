@@ -19,3 +19,24 @@ export async function getSampleForecast(cityKey) {
   const data = await res.json();
   return data.daily;
 }
+
+
+export async function getForecast({ lat, lon }) {
+  const params = new URLSearchParams({
+    latitude: lat,
+    longitude: lon,
+    daily: "temperature_2m_max,precipitation_probability_max,wind_speed_10m_max",
+    timezone: "Asia/Seoul",
+    forecast_days: 7
+  });
+
+  const response = await fetch(`${BASE}?${params}`);
+
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}`);
+  }
+
+  const data = await response.json();
+  return data.daily;
+}
+
